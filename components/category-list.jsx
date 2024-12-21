@@ -24,11 +24,12 @@ const CategoryList = () => {
     setIsLoading(true);
     try {
       const res = await globalApi.GetCategory();
-      setCategoryList(res.categories || []);
+      setCategoryList(res.categories);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 300);
     } catch (error) {
       console.error("Failed to fetch categories:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -54,7 +55,7 @@ const CategoryList = () => {
   }, []);
 
   return (
-    <div className=" mt-10 relative">
+    <div className=" container mt-10 relative mx-auto">
       <ArrowLeftCircle
         onClick={handelLeftScroll}
         className=" absolute -left-10 top-9 bg-gray-500 rounded-full text-white h-8 w-8 cursor-pointer"
@@ -63,31 +64,36 @@ const CategoryList = () => {
         className=" flex gap-4  overflow-x-auto scrollbar-hide"
         ref={listRef}
       >
-        {isLoading ? (
-          <p>Loading...</p>
-        ) : (
-          categoryList.map((category) => (
-            <Link
-              href={"?category=" + category?.slug}
-              className={` flex flex-col items-center gap-2 border p-3 rounded-xl min-w-28 hover:border-red-500 hover:bg-orange-50 cursor-pointer group ${
-                selectedCategory === category?.slug &&
-                " border-red-500 bg-orange-50"
-              }`}
-              key={category?.id}
-            >
-              <Image
-                src={category?.icon?.url}
-                alt={category?.name || "Category Icon"}
-                className="group-hover:scale-110 transition-all duration-150"
-                width={45}
-                height={45}
-              />
-              <h1 className=" group-hover:text-red-500 text-sm font-bold">
-                {category?.name}
-              </h1>
-            </Link>
-          ))
-        )}
+        {isLoading
+          ? categoryList.map((item, index) => {
+              return (
+                <div
+                  key={index}
+                  className="w-28 h-24 min-w-[100px] cursor-pointer bg-slate-200 rounded-lg animate-pulse relative"
+                ></div>
+              );
+            })
+          : categoryList.map((category) => (
+              <Link
+                href={"?category=" + category?.slug}
+                className={` flex flex-col items-center gap-2 border p-3 rounded-xl min-w-28 hover:border-red-500 hover:bg-orange-50 cursor-pointer group ${
+                  selectedCategory === category?.slug &&
+                  " border-red-500 bg-orange-50"
+                }`}
+                key={category?.id}
+              >
+                <Image
+                  src={category?.icon?.url}
+                  alt={category?.name || "Category Icon"}
+                  className="group-hover:scale-110 transition-all duration-150"
+                  width={45}
+                  height={45}
+                />
+                <h1 className=" group-hover:text-red-500 text-sm font-bold">
+                  {category?.name}
+                </h1>
+              </Link>
+            ))}
       </div>
       <ArrowRightCircle
         onClick={handelScroll}
