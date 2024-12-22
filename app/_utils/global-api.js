@@ -21,7 +21,7 @@ const GetCategory = async () => {
 const GetBusiness = async (category) => {
   const query = gql`
     query GetBusiness {
-      restaurants(where: { category_some: { slug: "${category}" } }) {
+      restaurants(where: { category_some: { slug: "${category}" } } first:100) {
         aboutUs
         address
         banner {

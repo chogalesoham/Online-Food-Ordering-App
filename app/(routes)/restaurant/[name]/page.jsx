@@ -22,7 +22,7 @@ const Restaurant = () => {
   }, []);
 
   return (
-    <div>
+    <div className=" container mx-auto">
       <RestaurantInfo restaurantDetailsData={restaurantDetailsData} />
       <RestaurantTab restaurantDetailsData={restaurantDetailsData} />
     </div>

@@ -12,13 +12,13 @@ const RestaurantInfo = ({ restaurantDetailsData }) => {
           <Image
             src={restaurantDetailsData?.banner?.url}
             width={1000}
-            height={300}
+            height={500}
             alt={restaurantDetailsData?.name}
             title={restaurantDetailsData?.name}
-            className=" w-full h-[220px] object-fill rounded-xl"
+            className=" w-full h-[400px] object-fill rounded-xl"
           />
         ) : (
-          <div className="w-full h-[220px] object-cover rounded-xl bg-slate-200 animate-pulse"></div>
+          <div className="w-full h-[400px] object-cover rounded-xl bg-slate-200 animate-pulse"></div>
         )}
       </div>
 
