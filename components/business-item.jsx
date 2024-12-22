@@ -1,12 +1,16 @@
 import Image from "next/image";
 import React from "react";
 import Star from "@/public/star.png";
+import Link from "next/link";
 
 const BusinessItem = ({ item }) => {
   console.log("data", item);
 
   return (
-    <div className=" p-4 hover:border rounded-xl hover:border-orange-500 transition-all ease-in-out hover:bg-orange-50 cursor-pointer shadow-lg">
+    <Link
+      href={`/restaurant/id=${item?.id}`}
+      className=" p-4 hover:border rounded-xl hover:border-orange-500 transition-all ease-in-out hover:bg-orange-50 cursor-pointer shadow-lg"
+    >
       <Image
         alt={item?.name}
         height={130}
@@ -27,7 +31,7 @@ const BusinessItem = ({ item }) => {
           </h2>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
