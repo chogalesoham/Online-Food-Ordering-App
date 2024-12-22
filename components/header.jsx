@@ -5,13 +5,17 @@ import Logo from "@/public/logo.png";
 import { Search } from "lucide-react";
 import { Button } from "./ui/button";
 import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
+import Link from "next/link";
 
 const Header = () => {
   const { user, isSignedIn } = useUser();
   return (
     <div className="w-full shadow-xl fixed bg-white z-20 top-0 left-0 right-0">
       <nav className=" container mx-auto flex justify-between items-center py-3 md:px-20 shadow-sm">
-        <Image width={200} height={200} alt="logo" src={Logo} />
+        <Link href={"/"}>
+          {" "}
+          <Image width={200} height={200} alt="logo" src={Logo} />
+        </Link>
         <div className=" hidden md:flex border p-2 rounded-lg bg-gray-200 w-96">
           <input
             type="text"

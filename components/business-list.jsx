@@ -22,7 +22,7 @@ const BusinessList = () => {
     setIsLoading(true);
     try {
       const res = await globalApi.GetBusiness(category_);
-      console.log("Business List:", res);
+      // console.log("Business List:", res);
       setBusinessList(res?.restaurants);
       setTimeout(() => {
         setIsLoading(false);
