@@ -4,7 +4,7 @@ import Star from "@/public/star.png";
 import Link from "next/link";
 
 const BusinessItem = ({ item }) => {
-  console.log("data", item);
+  // console.log("data", item);
 
   return (
     <Link
