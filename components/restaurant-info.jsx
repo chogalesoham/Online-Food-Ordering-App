@@ -4,7 +4,8 @@ import star from "@/public/star.png";
 import { MapPin } from "lucide-react";
 
 const RestaurantInfo = ({ restaurantDetailsData }) => {
-  console.log("restaurantDetailsData", restaurantDetailsData);
+  // console.log("restaurantDetailsData", restaurantDetailsData);
+
   return (
     <div>
       <div>
@@ -15,15 +16,15 @@ const RestaurantInfo = ({ restaurantDetailsData }) => {
             height={500}
             alt={restaurantDetailsData?.name}
             title={restaurantDetailsData?.name}
-            className=" w-full h-[400px] object-fill rounded-xl"
+            className=" w-full h-[250px] lg:h-[400px] object-fill rounded-xl"
           />
         ) : (
-          <div className="w-full h-[400px] object-cover rounded-xl bg-slate-200 animate-pulse"></div>
+          <div className="w-full h-[250px] lg:h-[400px] object-cover rounded-xl bg-slate-200 animate-pulse"></div>
         )}
       </div>
 
       {restaurantDetailsData?.name || restaurantDetailsData?.address ? (
-        <div>
+        <div className=" p-1">
           <h2 className=" text-3xl font-bold mt-2">
             {restaurantDetailsData?.name}
           </h2>

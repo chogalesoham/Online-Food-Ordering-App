@@ -1,12 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import { SquarePlus } from "lucide-react";
+import { useUser } from "@clerk/nextjs";
+import globalApi from "@/app/_utils/global-api";
+import { toast } from "sonner";
+import { CartUpdateContext } from "@/app/_context/card-updateContext";
 
 const MenuTab = ({ restaurantDetailsData }) => {
-  // console.log("000000000000", restaurantDetailsData);
   const [menuItemList, setMenuItemList] = useState([]);
-  console.log(menuItemList);
+  const { user } = useUser();
+
+  const { updateCart, setUpdateCart } = useContext(CartUpdateContext);
 
   useEffect(() => {
     restaurantDetailsData?.menu &&
@@ -18,6 +23,28 @@ const MenuTab = ({ restaurantDetailsData }) => {
       (item) => item?.category === category
     );
     setMenuItemList(result[0]);
+  };
+
+  const addToCardHandler = (item) => {
+    toast("Item Adding to Cart");
+    const data = {
+      email: user?.primaryEmailAddress?.emailAddress,
+      price: item?.price,
+      description: item?.description,
+      productImage: item?.productImage?.url,
+      productName: item?.name,
+      resId: restaurantDetailsData?.id,
+    };
+    // console.log("card data: ", data.resId);
+    globalApi.AddToCart(data).then(
+      (res) => {
+        toast("Item Added to Cart");
+        setUpdateCart(!updateCart);
+      },
+      (error) => {
+        toast("Error While Adding into Cart");
+      }
+    );
   };
 
   return (
@@ -42,7 +69,10 @@ const MenuTab = ({ restaurantDetailsData }) => {
           <div className=" grid grid-cols-1 lg:grid-cols-2 gap-5">
             {menuItemList?.menuItem &&
               menuItemList?.menuItem.map((item, index) => (
-                <div className=" p-2 flex gap-3 border rounded-xl items-center hover:border-orange-400 cursor-pointer hover:bg-orange-50">
+                <div
+                  key={index}
+                  className=" p-2 flex gap-3 border rounded-xl items-center hover:border-orange-400 cursor-pointer hover:bg-orange-50"
+                >
                   <Image
                     src={item?.productImage?.url}
                     alt={item?.name}
@@ -56,7 +86,10 @@ const MenuTab = ({ restaurantDetailsData }) => {
                     <p className=" text-sm text-gray-400 line-clamp-2">
                       {item?.description}
                     </p>
-                    <SquarePlus className=" cursor-pointer" />
+                    <SquarePlus
+                      onClick={() => addToCardHandler(item)}
+                      className=" cursor-pointer"
+                    />
                   </div>
                 </div>
               ))}
