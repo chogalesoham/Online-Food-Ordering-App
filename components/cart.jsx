@@ -6,9 +6,9 @@ import globalApi from "@/app/_utils/global-api";
 import { toast } from "sonner";
 import { CartUpdateContext } from "@/app/_context/card-updateContext";
 import CartEmpty from "@/public/cart-empty.png";
+import Link from "next/link";
 
 const Cart = ({ cartData }) => {
-  console.log("000000000", cartData);
   const { updateCart, setUpdateCart } = useContext(CartUpdateContext);
 
   const totalAmount = () => {
@@ -67,8 +67,12 @@ const Cart = ({ cartData }) => {
           ))}
         </div>
       )}
-
-      <Button className=" my-1 w-full">Checkout: ₹ {totalAmount()}</Button>
+      <Link
+        className=" w-full"
+        href={`/checkout?restaurant=${cartData[0]?.restaurant?.name}`}
+      >
+        <Button className=" my-1 w-full">Checkout: ₹ {totalAmount()}</Button>
+      </Link>
     </div>
   );
 };
