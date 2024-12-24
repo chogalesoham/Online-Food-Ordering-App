@@ -1,6 +1,7 @@
 import React from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import MenuTab from "./menu-tab";
+import ReviewsSection from "./reviews-section";
 
 const RestaurantTab = ({ restaurantDetailsData }) => {
   return (
@@ -17,7 +18,7 @@ const RestaurantTab = ({ restaurantDetailsData }) => {
           </TabsContent>
           <TabsContent value="about">Change your password here.</TabsContent>
           <TabsContent value="reviews">
-            Change your password hedgererre.
+            <ReviewsSection restaurantDetailsData={restaurantDetailsData} />
           </TabsContent>
         </Tabs>
       ) : (

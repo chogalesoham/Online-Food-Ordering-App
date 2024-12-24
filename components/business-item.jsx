@@ -5,6 +5,16 @@ import Link from "next/link";
 
 const BusinessItem = ({ item }) => {
   // console.log("data", item);
+  const CalculateRating = () => {
+    let total = 0;
+    let count = 0;
+    item?.review.forEach((el) => {
+      total = total + el.star;
+      count++;
+    });
+    const result = total / count;
+    return result;
+  };
 
   return (
     <Link
@@ -23,7 +33,9 @@ const BusinessItem = ({ item }) => {
         <div className=" flex justify-between items-center">
           <div className=" flex gap-2 items-center">
             <Image src={Star} width={14} height={14} alt="Star" />
-            <label className=" text-gray-400 text-sm">4.5</label>
+            <label className=" text-gray-400 text-sm">
+              {CalculateRating()}
+            </label>
             <h2 className=" text-gray-400 text-sm">{item?.restroType[0]}</h2>
           </div>
           <h2 className=" text-sm text-orange-600">
