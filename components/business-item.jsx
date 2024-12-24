@@ -13,7 +13,7 @@ const BusinessItem = ({ item }) => {
       count++;
     });
     const result = total / count;
-    return result;
+    return result ? result.toFixed(1) : 4.5;
   };
 
   return (
