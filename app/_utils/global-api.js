@@ -86,6 +86,9 @@ const GetRestaurantDetails = async (restaurantId) => {
             }
           }
         }
+        review {
+        star
+        }
       }
     }
   `;

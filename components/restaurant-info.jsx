@@ -1,10 +1,33 @@
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import star from "@/public/star.png";
 import { MapPin } from "lucide-react";
 
 const RestaurantInfo = ({ restaurantDetailsData }) => {
   // console.log("restaurantDetailsData", restaurantDetailsData);
+  const [reviewCount, setReviewCount] = useState(0);
+  const [averageRating, setAverageRating] = useState(4.5);
+
+  useEffect(() => {
+    if (
+      restaurantDetailsData?.review &&
+      restaurantDetailsData.review.length > 0
+    ) {
+      let total = 0;
+      let count = 0;
+
+      restaurantDetailsData.review.forEach((el) => {
+        total += el.star;
+        count++;
+      });
+
+      setReviewCount(count);
+      setAverageRating((total / count).toFixed(1));
+    } else {
+      setReviewCount(0);
+      setAverageRating(4.5);
+    }
+  }, [restaurantDetailsData?.review]);
 
   return (
     <div>
@@ -30,7 +53,9 @@ const RestaurantInfo = ({ restaurantDetailsData }) => {
           </h2>
           <div className=" flex items-center gap-2">
             <Image src={star} alt="star" width={20} height={20} />
-            <label className=" text-sm text-gray-700">4.5 (60)</label>
+            <label className=" text-sm text-gray-700">
+              {averageRating} ({reviewCount})
+            </label>
           </div>
           <h2 className=" text-gray-500 mt-2 flex gap-2 items-center">
             <MapPin />
