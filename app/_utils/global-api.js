@@ -35,6 +35,9 @@ const GetBusiness = async (category) => {
         restroType
         slug
         workingHours
+        review {
+        star
+        }
       }
     }
   `;
@@ -172,6 +175,50 @@ const RemoveCart = async (id) => {
   return result;
 };
 
+const AddNewReview = async (data) => {
+  const query = gql`
+    mutation AddNewReview {
+      createReview(
+        data: {
+          email: "${data?.email}"
+          profileImage: "${data?.profileImage}"
+          reviewText: "${data?.reviewText}"
+          star: ${data?.star}
+          userName: "${data?.userName}"
+          restaurant: { connect: { id: "${data?.resId}" } }
+        }
+      ) {
+        id
+      }
+         publishManyReviews(to: PUBLISHED) {
+        count
+      }
+    }
+  `;
+  const result = await request(MASTER_URL, query);
+  return result;
+};
+
+const GetRestaurantsReviews = async (id) => {
+  const query = gql`
+query GetRestaurantReviews {
+  reviews(
+    where: {restaurant: {id: "${id}"}}
+    orderBy: publishedAt_DESC
+  ) {
+    id
+    profileImage
+    publishedAt
+    reviewText
+    star
+    userName
+  }
+}
+  `;
+  const result = await request(MASTER_URL, query);
+  return result;
+};
+
 export default {
   GetCategory,
   GetBusiness,
@@ -180,4 +227,6 @@ export default {
   GetUserCart,
   DeleteFromCart,
   RemoveCart,
+  AddNewReview,
+  GetRestaurantsReviews,
 };
