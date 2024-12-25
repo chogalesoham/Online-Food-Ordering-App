@@ -6,11 +6,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useUser } from "@clerk/nextjs";
 import { Loader, Minus } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 
 const CheckoutPage = () => {
+  const router = useRouter();
   const [cart, setCart] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [subTotal, setSubTotal] = useState();
@@ -27,6 +28,14 @@ const CheckoutPage = () => {
     address: "",
   });
   const [loading, setLoading] = useState(false);
+  const isFormIncomplete =
+    !billingDetails.email ||
+    !billingDetails.phone ||
+    !billingDetails.userName ||
+    !billingDetails.zip ||
+    !billingDetails.address;
+
+  const isDisabled = isFormIncomplete || isLoading;
 
   console.log(cart);
 
@@ -105,6 +114,7 @@ const CheckoutPage = () => {
                   setLoading(false);
                   toast("Order Plase Successfully 👍");
                   setUpdateCart(!updateCart);
+                  router.replace("/confirmation");
                 },
                 (error) => {
                   setLoading(false);
@@ -118,8 +128,6 @@ const CheckoutPage = () => {
       }
     );
   };
-
-  console.log(billingDetails);
 
   return (
     <div className=" w-full flex-col flex items-center justify-center">
@@ -191,8 +199,11 @@ const CheckoutPage = () => {
             Total: <span>₹{total}</span>
           </p>
           <Button
+            desabled={isDisabled}
             onClick={() => addToOrder()}
-            className=" w-[95%] m-4 rounded-s"
+            className={` w-[95%] m-4 rounded-s ${
+              isDisabled ? " cursor-not-allowed opacity-60 " : " cursor-pointer"
+            }`}
           >
             {loading ? <Loader className=" animate-spin" /> : "   Make Payment"}
           </Button>
