@@ -2,12 +2,13 @@
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import Logo from "@/public/logo.png";
-import { Search, ShoppingCart } from "lucide-react";
+import { Search, SearchIcon, ShoppingCart } from "lucide-react";
 import { Button } from "./ui/button";
 import { SignInButton, SignUpButton, UserButton, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import { CartUpdateContext } from "@/app/_context/card-updateContext";
 import globalApi from "@/app/_utils/global-api";
+// import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   Sheet,
   SheetContent,
@@ -17,6 +18,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import Cart from "./cart";
+import SearchbBar from "./search-bar";
 
 const Header = () => {
   const { user, isSignedIn } = useUser();
@@ -47,20 +49,37 @@ const Header = () => {
 
   return (
     <div className="w-full shadow-xl fixed bg-white z-20 top-0 left-0 right-0">
-      <nav className="container mx-auto flex justify-between items-center py-3 md:px-20 shadow-sm">
+      <nav className="container mx-auto flex justify-center md:justify-between gap-[45px] items-center py-3 md:px-20 shadow-sm">
         {/* Logo */}
         <Link href={"/"}>
-          <Image width={200} height={200} alt="logo" src={Logo} />
+          <Image
+            width={200}
+            height={200}
+            alt="logo"
+            src={Logo}
+            className=" w-[100px] h-[40px] md:w-[150px] md:h-[50px]"
+          />
         </Link>
 
-        {/* Search Input */}
-        <div className="hidden md:flex border p-2 rounded-lg bg-gray-200 w-96">
-          <input
-            type="text"
-            className="bg-transparent w-full outline-none text-orange-500"
-            placeholder="Search"
-          />
-          <Search className="text-orange-500" />
+        {/* Desktop Search Bar */}
+        <div className="hidden md:flex">
+          <SearchbBar />
+        </div>
+
+        {/* Mobile Search Bar */}
+        <div className="flex md:hidden">
+          <Sheet>
+            <SheetTrigger aria-label="Open Search">
+              <SearchIcon />
+            </SheetTrigger>
+            <SheetContent
+              side="top"
+              className="w-full flex items-center justify-center"
+              showCloseIcon={false}
+            >
+              <SearchbBar />
+            </SheetContent>
+          </Sheet>
         </div>
 
         {isSignedIn ? (
