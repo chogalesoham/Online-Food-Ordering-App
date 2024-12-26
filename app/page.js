@@ -1,11 +1,9 @@
-import BusnessList from "@/components/business-list";
-import CategoryList from "@/components/category-list";
+import MainComponent from "@/components/MainComponent";
 
 export default function Home() {
   return (
     <>
-      <CategoryList />
-      <BusnessList />
+      <MainComponent />
     </>
   );
 }
