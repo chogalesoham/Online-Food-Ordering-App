@@ -3,12 +3,9 @@
 import globalApi from "@/app/_utils/global-api";
 import { Search } from "lucide-react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import React, { useState, useEffect, useRef } from "react";
 
 const SearchBar = () => {
-  const params = useSearchParams();
-  const [category, setCategory] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
   const [restaurantResult, setRestaurantResult] = useState([]);
   const [input, setInput] = useState("");
@@ -19,15 +16,13 @@ const SearchBar = () => {
   const resultsListRef = useRef(null);
 
   useEffect(() => {
-    const categoryParam = params?.get("category") || "all";
-    setCategory(categoryParam);
-    fetchBusinessList(categoryParam);
-  }, [params]);
+    fetchBusinessList();
+  }, []);
 
-  const fetchBusinessList = async (category_) => {
+  const fetchBusinessList = async () => {
     setIsLoading(true);
     try {
-      const res = await globalApi.GetBusiness(category_);
+      const res = await globalApi.GetBusiness("all");
       setBusinessList(res?.restaurants || []);
       setIsLoading(false);
     } catch (error) {
@@ -88,10 +83,8 @@ const SearchBar = () => {
       const listHeight = list.clientHeight;
 
       if (itemTop < listScrollTop) {
-        // Scroll up to make the item visible
         list.scrollTop = itemTop;
       } else if (itemBottom > listScrollTop + listHeight) {
-        // Scroll down to make the item visible
         list.scrollTop = itemBottom - listHeight;
       }
     }
